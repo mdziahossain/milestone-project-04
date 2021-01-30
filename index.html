@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
     <!-- Stylesheet -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -51,21 +55,29 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="firstClass-count" class="inp-style inp-width" type="number" value="0">
                 </div>
-                <div class="plus-minus-btn">
+                <div class="btn-box">
+                    <button onclick="handleTicketChange('firstClass', false)" class="btn btn.primary btn-bg"><i class="fas fa-minus icon"></i></button>
+                    <button onclick="handleTicketChange('firstClass', true)" class="btn btn.primary btn-bg"><i class="fas fa-plus icon"></i></button>
+                </div>
+                <!-- <div class="plus-minus-btn">
                     <p>+ -</p>
-                </div>
+                </div> -->
             </div>
             
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="economyClass-count" class="inp-style inp-width" type="number" value="0">
                 </div>
-                <div class="plus-minus-btn">
+                <div class="btn-box">
+                    <button onclick="handleTicketChange('economyClass', false)" class="btn btn-primary btn-bg"><i class="fas fa-minus icon"></i></button>
+                    <button onclick="handleTicketChange('economyClass', true)" class="btn btn-primary btn-bg"><i class="fas fa-plus icon"></i></button>
+                </div>
+                <!-- <div class="plus-minus-btn">
                     <p> <span>+</span> <span>-</span> </p>
-                </div>
+                </div> -->
             </div>
             <div class="calculations">
                 <div class="amount">
@@ -73,7 +85,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p id="sub-total">$0</p>
                     </div>
                 </div>
 
@@ -82,7 +94,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p id="vat-amount">$0</p>
                     </div>
                 </div>
                 <hr>
@@ -91,11 +103,11 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p id="grand-total">$0</p>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="book-now" class="btn-style" onclick="bookNow()">Book Now</button>
         </div>
 
         <div class="booking-content">
@@ -105,6 +117,57 @@
     </section>
 
     <!--Thank You-->
-</body>
 
+    <script>
+        
+    function handleTicketChange(ticket, isIncrease){
+        const ticketInput = document.getElementById(ticket + "-count");
+        console.log(ticketInput);
+        const ticketCount = parseFloat(ticketInput.value);
+        let ticketNewCount = ticketCount;
+
+        if (isIncrease == true) {
+            ticketNewCount += 1;
+            }
+        if (isIncrease == false && ticketCount > 0) {
+            ticketNewCount -= 1;
+            }
+
+        ticketInput.value = ticketNewCount;  
+        
+        // Calling the calculate function
+        calculateTotal();
+    }
+
+    // Total Cost Calculation
+    function calculateTotal() {
+        const firstClassCount = getInputValue("firstClass");
+        const economyClassCount = getInputValue("economyClass");
+
+        const subTotal = firstClassCount * 150 + economyClassCount * 100;
+        document.getElementById("sub-total").innerText = `$${subTotal}`;
+
+        const vat = Math.floor(subTotal * .10);
+        document.getElementById('vat-amount').innerText = `$${vat}`;
+
+        const grandTotal = subTotal + vat;
+        document.getElementById("grand-total").innerText = `$${grandTotal}`
+    }
+
+    // Get Input of Tickets
+    function getInputValue(ticket){
+        const ticketInput = document.getElementById(ticket + "-count");
+        const ticketCount = parseInt(ticketInput.value);
+        return ticketCount;
+    }
+
+    // Booking Msg
+    // function bookNow(){
+    //     alert(msg);
+    //     const msg = `You have purchased ${} First class tickets, ${} Economy class tickets`;
+    //     const msg1 = `You total paid ${}`;
+    // }
+   
+    </script>
+</body>
 </html>
