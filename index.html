@@ -117,6 +117,7 @@
     </section>
 
     <!--Thank You-->
+    
 
     <script>
         
@@ -162,12 +163,18 @@
     }
 
     // Booking Msg
-    // function bookNow(){
-    //     alert(msg);
-    //     const msg = `You have purchased ${} First class tickets, ${} Economy class tickets`;
-    //     const msg1 = `You total paid ${}`;
-    // }
-   
+    function bookNow(){
+
+        const firstClassCount = getInputValue("firstClass");
+        const economyClassCount = getInputValue("economyClass");
+
+        if (firstClassCount > 0 || economyClassCount > 0) {
+            alert('Your booking is confirmed!');
+        } else {
+            alert('You have not purchased any ticket, Please confirm!');
+        }
+    }
+  
     </script>
 </body>
 </html>
